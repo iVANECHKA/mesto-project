@@ -1,4 +1,4 @@
-[![N|Solid](https://i.imgur.com/ierxLvC.png)](https://nodesource.com/products/nsolid)
+[![N|Solid](https://i.imgur.com/ierxLvC.png)](https://ivanechka.github.io/mesto-project/)
 # Проект: Mesto
 ## Описание
 Это социальная сеть для путешественников.
@@ -31,7 +31,7 @@
 ### Планы по доработке
 - Добавить возможность редактирования профиля
 
-[Mesto]: <http://angularjs.org>
+[Mesto]: <https://ivanechka.github.io/mesto-project/>
 
 
 
