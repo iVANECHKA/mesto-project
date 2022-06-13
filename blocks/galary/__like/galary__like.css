@@ -1,0 +1,17 @@
+.galary__like {
+    background-image: url(../../../images/like.svg);
+    width: 22px;
+    height: 19px;
+    border: none;
+    background-color: transparent;
+    transition: 0.2s ease;
+}
+
+.galary__like:hover {
+    opacity: 0.5;
+}
+
+.galary__like:active {
+    background-image: url(../../../images/like-active.svg);
+    opacity: 1;
+}

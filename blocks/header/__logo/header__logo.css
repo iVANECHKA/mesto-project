@@ -5,3 +5,10 @@
     height: 33px;
     display: block;
 }
+
+@media screen and (max-width: 915px) {
+    .header__logo {
+        width: 104px;
+        height: 24.4px;
+    }
+}

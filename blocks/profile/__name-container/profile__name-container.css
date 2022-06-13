@@ -2,3 +2,9 @@
     display: flex;
     align-items: baseline;
 }
+
+@media screen and (max-width: 780px) {
+    .profile__name-container {
+        margin-left: 25px;
+    }
+}

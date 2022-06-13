@@ -4,3 +4,16 @@
     line-height: 22px;
     margin: 10px 0 0;
 }
+
+@media screen and (max-width: 780px) {
+    .profile__description {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 597px) {
+    .profile__description {
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

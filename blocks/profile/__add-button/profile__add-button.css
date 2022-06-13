@@ -7,4 +7,15 @@
     border-radius: 2px;
     width: 150px;
     height: 50px;
+    transition: 0.2s ease;
+}
+
+.profile__add-button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 597px) {
+    .profile__add-button {
+        width: 282px;
+    }
 }

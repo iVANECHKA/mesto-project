@@ -1,0 +1,14 @@
+.popup__window {
+    max-width: 430px;
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    position: relative;
+    font-family: 'Inter', 'Arial', sans-serif;
+}
+
+@media screen and (max-width: 597px) {
+    .popup__window {
+        max-width: 282px;
+    }
+}
