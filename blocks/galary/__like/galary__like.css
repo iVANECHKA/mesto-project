@@ -6,6 +6,7 @@
     background-color: transparent;
     transition: 0.2s ease;
     background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .galary__like:hover {

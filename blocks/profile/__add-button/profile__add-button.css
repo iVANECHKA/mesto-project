@@ -3,11 +3,13 @@
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
+    background-size: 22px 22px;
     border: 2px solid white;
     border-radius: 2px;
     width: 150px;
     height: 50px;
     transition: 0.2s ease;
+    cursor: pointer;
 }
 
 .profile__add-button:hover {
@@ -17,5 +19,6 @@
 @media screen and (max-width: 597px) {
     .profile__add-button {
         width: 282px;
+        background-size: 16px 16px;
     }
 }

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./pages/index.css">
-    <title>Mesto</title>
+    <title>Место</title>
 </head>
 <body>
     <div class="page">
@@ -18,51 +18,51 @@
             <div class="profile__info">
                 <div class="profile__name-container">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
-                    <button type="button" class="profile__edit-button"></button>
+                    <button type="button" class="profile__edit-button" aria-label="Редактировать профиль"></button>
                 </div>
                 <p class="profile__description">Исследователь океана</p>
             </div>      
-            <button type="button" class="profile__add-button"></button>
+            <button type="button" class="profile__add-button" aria-label="Добавить фото"></button>
         </section>
         <section class="galary">
             <ul class="galary__cards">
                 <li class="galary__card">
-                    <img src="./images/Karachaevo.jpg" alt="" class="galary__image">
+                    <img src="./images/Karachaevo.jpg" alt="Заброшенный монастырь в Карачаевске" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Карачаевск</h2>
-                        <button type="button" class="galary__like"></button>
+                        <button type="button" class="galary__like" aria-label="Поставить лайк"></button>
                     </div>
                 </li>
                 <li class="galary__card">
-                    <img src="./images/Elbrus.jpg" alt="" class="galary__image">
+                    <img src="./images/Elbrus.jpg" alt="Гора Эльбрус" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Гора Эльбрус</h2>
                         <button type="button" class="galary__like"></button>
                     </div>
                 </li>
                 <li class="galary__card">
-                    <img src="./images/Dombuy.jpg" alt="" class="galary__image">
+                    <img src="./images/Dombuy.jpg" alt="Домбай" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Домбай</h2>
                         <button type="button" class="galary__like"></button>
                     </div>
                 </li>
                 <li class="galary__card">
-                    <img src="./images/Elbrus.jpg" alt="" class="galary__image">
+                    <img src="./images/Elbrus.jpg" alt="Гора Эльбрус" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Гора Эльбрус</h2>
                         <button type="button" class="galary__like"></button>
                     </div>
                 </li>
                 <li class="galary__card">
-                    <img src="./images/Dombuy.jpg" alt="" class="galary__image">
+                    <img src="./images/Dombuy.jpg" alt="Домбай" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Домбай</h2>
                         <button type="button" class="galary__like"></button>
                     </div>
                 </li>
                 <li class="galary__card">
-                    <img src="./images/Karachaevo.jpg" alt="" class="galary__image">
+                    <img src="./images/Karachaevo.jpg" alt="Заброшенный монастырь в Карачаевске" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Карачаево-Черкесия</h2>
                         <button type="button" class="galary__like"></button>
@@ -76,9 +76,9 @@
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
 
-    <section class="popup popup_closed">
+    <div class="popup popup_closed">
         <div class="popup__window">
-            <button class="popup__close-button" type="button"></button>
+            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
             <form class="popup__form" name="userData">
                 <h2 class="popup__heading">Редактировать профиль</h2>
                 <input class="popup__input" name="userName" placeholder="Имя" required>
@@ -86,7 +86,7 @@
                 <button type="submit" class="popup__save-button">Сохранить</button>
             </form>    
         </div>
-    </section>
+    </div>
     </div>
 </body>
 </html>

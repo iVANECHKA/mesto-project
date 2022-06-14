@@ -3,11 +3,13 @@
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
+    background-size: 10px 10px;
     border: 1px solid white;
     width: 24px;
     height: 24px;
     margin-left: 18px;
     transition: 0.2s ease;
+    cursor: pointer;
 }
 
 .profile__edit-button:hover {
@@ -19,5 +21,6 @@
         width: 18px;
         height: 18px;
         margin-left: 10px;
+        background-size: 7.5px 7.5px;
     }
 }
