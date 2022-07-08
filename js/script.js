@@ -119,35 +119,35 @@ formElement.addEventListener('submit', formSubmitHandler);
 
 for (let i = 0; i < initialCards.length; ++i) {
     
-    let li = document.createElement('li');  
+    const li = document.createElement('li');  
     li.classList.add('galary__card');
     
-    let image = document.createElement('img');
+    const image = document.createElement('img');
     image.src = initialCards[i].link;
     image.classList.add('galary__image');
     image.setAttribute('alt', initialCards[i].name);
 
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     div.classList.add('galary__info');
 
-    let buttonDel = document.createElement('button');
+    const buttonDel = document.createElement('button');
     buttonDel.classList.add('galary__delete');
     buttonDel.setAttribute('type', 'button');
 
 
-    let h2 = document.createElement('h2');
+    const h2 = document.createElement('h2');
     h2.classList.add('galary__name');
     h2.textContent = initialCards[i].name;
 
-    let button = document.createElement('button');
-    button.classList.add('galary__like');
-    button.setAttribute('type', 'button');
+    const likeButton = document.createElement('button');
+    likeButton.classList.add('galary__like');
+    likeButton.setAttribute('type', 'button');
 
     li.appendChild(image);
     li.appendChild(div);
     li.appendChild(buttonDel);
     div.appendChild(h2);
-    div.appendChild(button);
+    div.appendChild(likeButton);
 
     galaryCards.appendChild(li);
 };
@@ -158,34 +158,34 @@ for (let i = 0; i < initialCards.length; ++i) {
 function addNewImage (evt) {
     evt.preventDefault(); // Что-то отменяется
 
-    let li = document.createElement('li');  
+    const li = document.createElement('li');  
     li.classList.add('galary__card');
     
-    let image = document.createElement('img');
+    const image = document.createElement('img');
     image.src = imageLinkInput.value;
     image.classList.add('galary__image');
     image.setAttribute('alt', imageNameInput.value);
 
-    let buttonDel = document.createElement('button');
+    const buttonDel = document.createElement('button');
     buttonDel.classList.add('galary__delete');
     buttonDel.setAttribute('type', 'button');
 
-    let div = document.createElement('div');
+    const div = document.createElement('div');
     div.classList.add('galary__info');
 
-    let h2 = document.createElement('h2');
+    const h2 = document.createElement('h2');
     h2.classList.add('galary__name');
     h2.textContent = imageNameInput.value;
 
-    button = document.createElement('button');
-    button.classList.add('galary__like');
-    button.setAttribute('type', 'button');
+    const likeButton = document.createElement('button');
+    likeButton.classList.add('galary__like');
+    likeButton.setAttribute('type', 'button');
 
     li.appendChild(image);
     li.appendChild(div);
     li.appendChild(buttonDel);
     div.appendChild(h2);
-    div.appendChild(button);
+    div.appendChild(likeButton);
 
     galaryCards.prepend(li);
 
