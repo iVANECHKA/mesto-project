@@ -29,3 +29,9 @@
 @import url(../blocks/popup/__window/popup__window.css);
 @import url(../blocks/popup/_closed/popup_closed.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/galary/__like/_active/galary__like_active.css);
+@import url(../blocks/galary/__delete/galary__delete.css);
+@import url(../blocks/imgFull-popup/__caption/imgFull-popup__caption.css);
+@import url(../blocks/imgFull-popup/__image/imgFull-popup__image.css);
+@import url(../blocks/imgFull-popup/imgFull-popup.css);
+@import url(../blocks/imgFull-popup/__container/imgFull-popup__container.css);

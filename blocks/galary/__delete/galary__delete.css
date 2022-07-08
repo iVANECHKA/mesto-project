@@ -1,0 +1,16 @@
+.galary__delete {
+    background-image: url(../../../images/del-button.svg);
+    background-color: transparent;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 18px;
+    height: 19px;
+    border: none;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.galary__delete:hover {
+    opacity: 0.6;
+}

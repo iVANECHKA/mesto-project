@@ -26,7 +26,7 @@
         </section>
         <section class="galary">
             <ul class="galary__cards">
-                <li class="galary__card">
+                <!-- <li class="galary__card">
                     <img src="./images/Karachaevo.jpg" alt="Заброшенный монастырь в Карачаевске" class="galary__image">
                     <div class="galary__info">
                         <h2 class="galary__name">Карачаевск</h2>
@@ -67,7 +67,7 @@
                         <h2 class="galary__name">Карачаево-Черкесия</h2>
                         <button type="button" class="galary__like"></button>
                     </div>
-                </li>
+                </li> -->
             </ul>
         </section>
     </main>
@@ -76,7 +76,7 @@
         <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
 
-    <div class="popup popup_closed">
+    <div class="popup">
         <div class="popup__window">
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
             <form class="popup__form" name="userData">
@@ -87,6 +87,28 @@
             </form>    
         </div>
     </div>
+
+    <div class="popup imgAdd-popup">
+        <div class="popup__window">
+            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+            <form class="popup__form" name="userData">
+                <h2 class="popup__heading">Новое место</h2>
+                <input class="popup__input" name="userName" placeholder="Название" required>
+                <input class="popup__input" name="userDescription" placeholder="Ссылка на картинку" required>
+                <button type="submit" class="popup__save-button">Создать</button>
+            </form>    
+        </div>
     </div>
+
+    <div class="popup imgFull-popup">
+        <div class="imgFull-popup__container">
+            <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg" alt="" class="imgFull-popup__image">
+            <button class="popup__close-button" type="button"></button>
+            <figcaption class="imgFull-popup__caption">Камчатка</figcaption>
+        </div>
+    </div>
+    </div>
+
+    <script src="/js/script.js"></script>
 </body>
 </html>
