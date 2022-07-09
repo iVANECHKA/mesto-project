@@ -1,4 +1,4 @@
-const editPopUp = document.querySelector('.popup'); // PopUp редактирования профиля
+const editPopUp = document.querySelector('.profileEdit-popup'); // PopUp редактирования профиля
 const nameInput = editPopUp.querySelector('.popup__input'); // Поле ввода имени
 const jobInput = nameInput.nextElementSibling; // Поле ввода работы
 const profileName = document.querySelector('.profile__name'); // Имя в профиле
@@ -16,6 +16,7 @@ const imageFullPopUp = document.querySelector('.imgFull-popup');
 const imageFullCloseButton = imageFullPopUp.querySelector('.popup__close-button'); 
 const galary = document.querySelector('.galary');
 const galaryCards = document.querySelector('.galary__cards'); 
+const cardTemplate = document.querySelector('.cardTemplate');
 const initialCards = [
     {
       name: 'Архыз',
@@ -47,29 +48,37 @@ const initialCards = [
 
 // Открытие/Закрытие окон
 
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+};
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+};
+
 // Открытие окна редактирования профиля
 editButton.addEventListener('click', function() {
-    editPopUp.classList.toggle('popup_opened');
+  openPopup(editPopUp);
 });
 
 // Закрытие окна редактирования профиля
 editCloseButton.addEventListener('click', function() {
-    editPopUp.classList.toggle('popup_opened');
+    closePopup(editPopUp);
 });
 
 // Открытие окна добавления фото
 addButton.addEventListener('click', function() {
-    imagePopUp.classList.toggle('popup_opened');
+    openPopup(imagePopUp);
 });
 
 // Закрытие окна добавления фото
 imageCloseButton.addEventListener('click', function() {
-    imagePopUp.classList.toggle('popup_opened');
+    closePopup(imagePopUp);
 });
 
 // Закрытие окна просмотра фото
 imageFullCloseButton.addEventListener('click', function() {
-  imageFullPopUp.classList.toggle('popup_opened');
+  closePopup(imageFullPopUp);
 });
 
 // Открытие окна просмотра фото
@@ -77,7 +86,7 @@ galaryCards.addEventListener('click', function(e) {
 
   const image = e.target.closest('.galary__image');
   const div = image.nextElementSibling;
-  const h2 = div.firstChild;
+  const h2 = div.firstElementChild;
   const caption = document.querySelector('.imgFull-popup__caption');
   const bigImg = document.querySelector('.imgFull-popup__image');
 
@@ -87,7 +96,7 @@ galaryCards.addEventListener('click', function(e) {
 
   caption.textContent = h2.textContent;
   bigImg.src = image.src;
-  imageFullPopUp.classList.toggle('popup_opened');
+  openPopup(imageFullPopUp);
 
 });
 
@@ -117,86 +126,57 @@ formElement.addEventListener('submit', formSubmitHandler);
 // Добавляем карточки через JS
 
 
-for (let i = 0; i < initialCards.length; ++i) {
-    
-    const li = document.createElement('li');  
-    li.classList.add('galary__card');
-    
-    const image = document.createElement('img');
-    image.src = initialCards[i].link;
-    image.classList.add('galary__image');
-    image.setAttribute('alt', initialCards[i].name);
+function createFirstCards(name, link) {
 
-    const div = document.createElement('div');
-    div.classList.add('galary__info');
+  const cardClone = cardTemplate.content.cloneNode(true);
 
-    const buttonDel = document.createElement('button');
-    buttonDel.classList.add('galary__delete');
-    buttonDel.setAttribute('type', 'button');
+  const img = cardClone.querySelector('.galary__image');
+  const h2 = cardClone.querySelector('.galary__name');
+  
+  img.src = link;
+  img.setAttribute('alt', name);
+  h2.textContent = name;
 
-
-    const h2 = document.createElement('h2');
-    h2.classList.add('galary__name');
-    h2.textContent = initialCards[i].name;
-
-    const likeButton = document.createElement('button');
-    likeButton.classList.add('galary__like');
-    likeButton.setAttribute('type', 'button');
-
-    li.appendChild(image);
-    li.appendChild(div);
-    li.appendChild(buttonDel);
-    div.appendChild(h2);
-    div.appendChild(likeButton);
-
-    galaryCards.appendChild(li);
+  return cardClone;
 };
 
+initialCards.forEach(card => {
+  const cardElement = createFirstCards(card.name, card.link);
+  galaryCards.append(cardElement);
+});
 
-// Добавление новых карточек
+// Создание новых карточек
 
-function addNewImage (evt) {
-    evt.preventDefault(); // Что-то отменяется
+function createNewCard () {
 
-    const li = document.createElement('li');  
-    li.classList.add('galary__card');
-    
-    const image = document.createElement('img');
-    image.src = imageLinkInput.value;
-    image.classList.add('galary__image');
-    image.setAttribute('alt', imageNameInput.value);
+  const cardClone = cardTemplate.content.cloneNode(true);
 
-    const buttonDel = document.createElement('button');
-    buttonDel.classList.add('galary__delete');
-    buttonDel.setAttribute('type', 'button');
+  const img = cardClone.querySelector('.galary__image');
+  const h2 = cardClone.querySelector('.galary__name');
+  
+  img.src = imageLinkInput.value;
+  img.setAttribute('alt', imageNameInput.value);
+  h2.textContent = imageNameInput.value;
 
-    const div = document.createElement('div');
-    div.classList.add('galary__info');
-
-    const h2 = document.createElement('h2');
-    h2.classList.add('galary__name');
-    h2.textContent = imageNameInput.value;
-
-    const likeButton = document.createElement('button');
-    likeButton.classList.add('galary__like');
-    likeButton.setAttribute('type', 'button');
-
-    li.appendChild(image);
-    li.appendChild(div);
-    li.appendChild(buttonDel);
-    div.appendChild(h2);
-    div.appendChild(likeButton);
-
-    galaryCards.prepend(li);
-
-    imagePopUp.classList.replace('popup_opened', 'popup_closed');
-
-    imageNameInput.value = '';
-    imageLinkInput.value = '';
+  return cardClone;
 
 };
 
-imageFormElement.addEventListener('submit', addNewImage);
+// Функция добавления новых карточек
+
+function addNewCard(evt) {
+  evt.preventDefault();
+
+  const newCard = createNewCard();
+  galaryCards.prepend(newCard);
+
+  imagePopUp.classList.toggle('popup_opened');
+
+  imageNameInput.value = '';
+  imageLinkInput.value = '';
+};
+
+imageFormElement.addEventListener('submit', addNewCard);
 
 
 // Удаление карточек
