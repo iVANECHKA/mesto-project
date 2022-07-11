@@ -12,11 +12,13 @@ const addButton = document.querySelector('.profile__add-button'); // Кнопк�
 const imageFormElement = imagePopUp.querySelector('.popup__form'); // Форма добавления фото
 const formElement = editPopUp.querySelector('.popup__form'); // Форма ввода данных профиля
 const imageCloseButton = imagePopUp.querySelector('.popup__close-button'); // Кнопка закрытия окна с добавлением фото
-const imageFullPopUp = document.querySelector('.imgFull-popup');
-const imageFullCloseButton = imageFullPopUp.querySelector('.popup__close-button'); 
-const galary = document.querySelector('.galary');
-const galaryCards = document.querySelector('.galary__cards'); 
-const cardTemplate = document.querySelector('.cardTemplate');
+const imageFullPopUp = document.querySelector('.imgFull-popup'); // PopUp с полным изображением
+const imageFullCloseButton = imageFullPopUp.querySelector('.popup__close-button'); // Кнопка закрытия попапа с полным изображением
+const galary = document.querySelector('.galary'); // Родитель GalaryCards
+const galaryCards = document.querySelector('.galary__cards'); // Контейнер карточек
+const cardTemplate = document.querySelector('.cardTemplate'); // Шаблон карточки
+const caption = document.querySelector('.imgFull-popup__caption'); // Подпись попапа с полным изображением
+const bigImg = document.querySelector('.imgFull-popup__image'); // Фото попапа с полным изображением
 const initialCards = [
     {
       name: 'Архыз',
@@ -59,6 +61,8 @@ function closePopup(popup) {
 // Открытие окна редактирования профиля
 editButton.addEventListener('click', function() {
   openPopup(editPopUp);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
 });
 
 // Закрытие окна редактирования профиля
@@ -81,52 +85,24 @@ imageFullCloseButton.addEventListener('click', function() {
   closePopup(imageFullPopUp);
 });
 
-// Открытие окна просмотра фото
-galaryCards.addEventListener('click', function(e) {
-
-  const image = e.target.closest('.galary__image');
-  const div = image.nextElementSibling;
-  const h2 = div.firstElementChild;
-  const caption = document.querySelector('.imgFull-popup__caption');
-  const bigImg = document.querySelector('.imgFull-popup__image');
-
-  if (!image) {
-    return;
-  }
-
-  caption.textContent = h2.textContent;
-  bigImg.src = image.src;
-  openPopup(imageFullPopUp);
-
-});
-
-
-
-// В полях ввода по умолчанию появляются актуальные данные
-
-nameInput.value = profileName.textContent;
-jobInput.value = profileJob.textContent;
-
 
 
 // Изменение информации в профиле
 
-function formSubmitHandler (evt) {
+function handleProfileFormSubmit (evt) {
     evt.preventDefault(); // Что-то отменяется
 
     profileName.textContent = nameInput.value; // Меняем имя на то, что ввёл пользователь в input'е
     profileJob.textContent = jobInput.value;
 
-    editPopUp.classList.replace('popup_opened', 'popup_closed'); // PopUp закрывается
+    closePopup(editPopUp); // PopUp закрывается
 }
 
-formElement.addEventListener('submit', formSubmitHandler); 
+formElement.addEventListener('submit', handleProfileFormSubmit); 
 
 
-// Добавляем карточки через JS
-
-
-function createFirstCards(name, link) {
+// Создание карточек
+function createCard(name, link) {
 
   const cardClone = cardTemplate.content.cloneNode(true);
 
@@ -140,67 +116,100 @@ function createFirstCards(name, link) {
   return cardClone;
 };
 
+// Добавление карточек по умолчанию в DOM
 initialCards.forEach(card => {
-  const cardElement = createFirstCards(card.name, card.link);
+  const cardElement = createCard(card.name, card.link);
   galaryCards.append(cardElement);
 });
 
-// Создание новых карточек
 
-function createNewCard () {
+// Создаем массивы из созданных фото, лайков и мусорок
+const galaryImagesNodes = document.querySelectorAll('.galary__image'); // NodeList всех фотографий
+const galaryImagesArray = Array.from(galaryImagesNodes); // Массив всех фотографий
 
-  const cardClone = cardTemplate.content.cloneNode(true);
+const galaryLikesNodes = document.querySelectorAll('.galary__like'); // NodeList всех лайков
+const galaryLikesArray = Array.from(galaryLikesNodes); // Массив всех лайков
 
-  const img = cardClone.querySelector('.galary__image');
-  const h2 = cardClone.querySelector('.galary__name');
-  
-  img.src = imageLinkInput.value;
-  img.setAttribute('alt', imageNameInput.value);
-  h2.textContent = imageNameInput.value;
+const galaryBinsNodes = document.querySelectorAll('.galary__delete'); // NodeList всех мусорок
+const galaryBinsArray = Array.from(galaryBinsNodes); // Массив всех мусорок
 
-  return cardClone;
-
-};
 
 // Функция добавления новых карточек
 
 function addNewCard(evt) {
   evt.preventDefault();
 
-  const newCard = createNewCard();
+  const newCard = createCard(imageNameInput.value, imageLinkInput.value);
   galaryCards.prepend(newCard);
 
-  imagePopUp.classList.toggle('popup_opened');
+  imageFormElement.reset();
 
-  imageNameInput.value = '';
-  imageLinkInput.value = '';
+  closePopup(imagePopUp);
+
+  galaryImagesArray.unshift(galaryCards.querySelector('.galary__image'));
+  addHandlerBigImg(galaryImagesArray[0]);
+
+  galaryLikesArray.unshift(galaryCards.querySelector('.galary__like'));
+  addHandlerLike(galaryLikesArray[0]);
+
+  galaryBinsArray.unshift(galaryCards.querySelector('.galary__delete'));
+  addHandlerBin(galaryBinsArray[0]);
 };
 
 imageFormElement.addEventListener('submit', addNewCard);
 
 
-// Удаление карточек
 
-galaryCards.addEventListener('click', function(e) {
-  const deleteButton = e.target.closest('.galary__delete');
+// Функция добавления обработчика для фото в полном размере
+
+function addHandlerBigImg(item) {
+  item.addEventListener('click', function(e) {
+    const image = e.target.closest('.galary__image');
+    const li = image.closest('.galary__card');
+    const h2 = li.querySelector('.galary__name');
+  
+    if (!image) {
+      return;
+    }
+  
+    caption.textContent = h2.textContent;
+    bigImg.src = image.src;
+    bigImg.alt = h2.textContent;
+    openPopup(imageFullPopUp);
+  });
+};
+
+galaryImagesArray.forEach(addHandlerBigImg);
+
+// Функция добавления обработчика для лайков
+
+function addHandlerLike(item) {
+  item.addEventListener('click', function(e) {
+    const likeButton = e.target.closest('.galary__like');
+  if (!likeButton) { 
+    return;
+  }
+
+  likeButton.classList.toggle('galary__like_active');
+  });
+};
+
+galaryLikesArray.forEach(addHandlerLike);
+
+// Функция добавления обработчика для мусорок
+
+function addHandlerBin(item) {
+  item.addEventListener('click', function(e) {
+    const deleteButton = e.target.closest('.galary__delete');
   if (!deleteButton) {
     return;
   }
 
   deleteButton.parentElement.remove();
-})
+  });
+};
 
-// Лайки
-
-galaryCards.addEventListener('click', function(e) {
-  const likeButton = e.target.closest('.galary__like');
-  if (!likeButton) {
-    return;
-  }
-
-  likeButton.classList.toggle('galary__like_active');
-});
-
+galaryBinsArray.forEach(addHandlerBin);
 
 
 
