@@ -108,10 +108,16 @@ function createCard(name, link) {
 
   const img = cardClone.querySelector('.galary__image');
   const h2 = cardClone.querySelector('.galary__name');
+  const like = cardClone.querySelector('.galary__like');
+  const deleteBtn = cardClone.querySelector('.galary__delete');
   
   img.src = link;
   img.setAttribute('alt', name);
   h2.textContent = name;
+
+  addHandlerBigImg(img);
+  addHandlerLike(like);
+  addHandlerBin(deleteBtn);
 
   return cardClone;
 };
@@ -121,17 +127,6 @@ initialCards.forEach(card => {
   const cardElement = createCard(card.name, card.link);
   galaryCards.append(cardElement);
 });
-
-
-// Создаем массивы из созданных фото, лайков и мусорок
-const galaryImagesNodes = document.querySelectorAll('.galary__image'); // NodeList всех фотографий
-const galaryImagesArray = Array.from(galaryImagesNodes); // Массив всех фотографий
-
-const galaryLikesNodes = document.querySelectorAll('.galary__like'); // NodeList всех лайков
-const galaryLikesArray = Array.from(galaryLikesNodes); // Массив всех лайков
-
-const galaryBinsNodes = document.querySelectorAll('.galary__delete'); // NodeList всех мусорок
-const galaryBinsArray = Array.from(galaryBinsNodes); // Массив всех мусорок
 
 
 // Функция добавления новых карточек
@@ -146,14 +141,6 @@ function addNewCard(evt) {
 
   closePopup(imagePopUp);
 
-  galaryImagesArray.unshift(galaryCards.querySelector('.galary__image'));
-  addHandlerBigImg(galaryImagesArray[0]);
-
-  galaryLikesArray.unshift(galaryCards.querySelector('.galary__like'));
-  addHandlerLike(galaryLikesArray[0]);
-
-  galaryBinsArray.unshift(galaryCards.querySelector('.galary__delete'));
-  addHandlerBin(galaryBinsArray[0]);
 };
 
 imageFormElement.addEventListener('submit', addNewCard);
@@ -179,7 +166,6 @@ function addHandlerBigImg(item) {
   });
 };
 
-galaryImagesArray.forEach(addHandlerBigImg);
 
 // Функция добавления обработчика для лайков
 
@@ -194,7 +180,6 @@ function addHandlerLike(item) {
   });
 };
 
-galaryLikesArray.forEach(addHandlerLike);
 
 // Функция добавления обработчика для мусорок
 
@@ -209,7 +194,6 @@ function addHandlerBin(item) {
   });
 };
 
-galaryBinsArray.forEach(addHandlerBin);
 
 
 
