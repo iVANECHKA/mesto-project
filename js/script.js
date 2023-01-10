@@ -1,6 +1,6 @@
 const editPopUp = document.querySelector('.profileEdit-popup'); // PopUp редактирования профиля
 const nameInput = editPopUp.querySelector('.popup__input'); // Поле ввода имени
-const jobInput = nameInput.nextElementSibling; // Поле ввода работы
+const jobInput = document.querySelector('.job-input') // Поле ввода работы
 const profileName = document.querySelector('.profile__name'); // Имя в профиле
 const profileJob = document.querySelector('.profile__description'); // Работа в профиле
 const editButton = document.querySelector('.profile__edit-button'); // Кнопка редактирования профиля
@@ -10,7 +10,7 @@ const imageNameInput = imagePopUp.querySelector('.popup__input'); // Поле в
 const imageLinkInput = imagePopUp.querySelector('.popup__input-link'); // Поле ввода ссылки на новое фото
 const addButton = document.querySelector('.profile__add-button'); // Кнопка добавления новых фото
 const imageFormElement = imagePopUp.querySelector('.popup__form'); // Форма добавления фото
-const formElement = editPopUp.querySelector('.popup__form'); // Форма ввода данных профиля
+const editFormElement = editPopUp.querySelector('.popup__form'); // Форма ввода данных профиля
 const imageCloseButton = imagePopUp.querySelector('.popup__close-button'); // Кнопка закрытия окна с добавлением фото
 const imageFullPopUp = document.querySelector('.imgFull-popup'); // PopUp с полным изображением
 const imageFullCloseButton = imageFullPopUp.querySelector('.popup__close-button'); // Кнопка закрытия попапа с полным изображением
@@ -98,7 +98,7 @@ function handleProfileFormSubmit (evt) {
     closePopup(editPopUp); // PopUp закрывается
 }
 
-formElement.addEventListener('submit', handleProfileFormSubmit); 
+editFormElement.addEventListener('submit', handleProfileFormSubmit); 
 
 
 // Создание карточек
@@ -195,6 +195,49 @@ function addHandlerBin(item) {
 };
 
 
+// Валидация
 
 
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('form__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('form__input-error_active');
+};
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('form__input_type_error');
+  errorElement.classList.remove('form__input-error_active');
+  errorElement.textContent = '';
+};
+
+const checkInputValidity = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+};
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();})
+    
+    setEventListeners(formElement);
+  })
+}
+
+enableValidation();
 
