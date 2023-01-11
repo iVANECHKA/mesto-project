@@ -40,11 +40,11 @@
                 
                     <h2 class="popup__heading">Редактировать профиль</h2>
                     <label class="popup__label">
-                        <input class="popup__input" id="name-input" type="text" name="userName" placeholder="Имя" required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$">
+                        <input class="popup__input" id="name-input" type="text" name="userName" placeholder="Имя" required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
                         <span class="form__input-error name-input-error"></span>
                     </label>
                     <label class="popup__label">
-                        <input class="popup__input job-input" id="description-input" type="text" name="userDescription" placeholder="Описание" required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$">
+                        <input class="popup__input job-input" id="description-input" type="text" name="userDescription" placeholder="Описание" required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
                         <span class="form__input-error description-input-error"></span>
                     </label>
                     <button type="submit" class="popup__save-button">Сохранить</button>
@@ -56,14 +56,14 @@
     <div class="popup imgAdd-popup">
         <div class="popup__window">
             <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-            <form class="popup__form" name="addingNewImage">
+            <form class="popup__form" name="addingNewImage" novalidate>
                 <h2 class="popup__heading">Новое место</h2>
                 <label class="popup__label">
-                    <input class="popup__input" id="imgName-input" type="text" name="placeName" placeholder="Название" required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$">
+                    <input class="popup__input" id="imgName-input" type="text" name="placeName" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
                     <span class="form__input-error imgName-input-error"></span>
                 </label>
                 <label class="popup__label">
-                    <input class="popup__input popup__input-link" id="link-input" name="placeLink" placeholder="Ссылка на картинку" required minlength="2">
+                    <input class="popup__input popup__input-link" id="link-input" type="url" name="placeLink" placeholder="Ссылка на картинку" required minlength="2">
                     <span class="form__input-error link-input-error"></span>
                 </label>
                 <button type="submit" class="popup__save-button">Создать</button>

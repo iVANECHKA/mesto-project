@@ -1,4 +1,5 @@
 const editPopUp = document.querySelector('.profileEdit-popup'); // PopUp редактирования профиля
+const popups = Array.from(document.querySelectorAll('.popup')); // Все попапы (массив)
 const nameInput = editPopUp.querySelector('.popup__input'); // Поле ввода имени
 const jobInput = document.querySelector('.job-input') // Поле ввода работы
 const profileName = document.querySelector('.profile__name'); // Имя в профиле
@@ -197,7 +198,6 @@ function addHandlerBin(item) {
 
 // Валидация
 
-
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add('form__input_type_error');
@@ -213,6 +213,12 @@ const hideInputError = (formElement, inputElement) => {
 };
 
 const checkInputValidity = (formElement, inputElement) => {
+  if (inputElement.validity.patternMismatch) {
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+  } else {
+    inputElement.setCustomValidity('');
+  }
+
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage);
   } else {
@@ -220,11 +226,30 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 };
 
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add('popup__save-button_inactive');
+    buttonElement.disabled = true;
+  } else {
+    buttonElement.classList.remove('popup__save-button_inactive');
+    buttonElement.disabled = false;
+  }
+}
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+  return !inputElement.validity.valid;
+}); 
+}
+
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
+  const buttonElement = formElement.querySelector('.popup__save-button');
+  toggleButtonState(inputList, buttonElement);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
 };
@@ -241,3 +266,22 @@ const enableValidation = () => {
 
 enableValidation();
 
+// Закрытие попапов на Escape
+
+document.addEventListener('keydown', function(event) {
+  if(event.key === 'Escape') {
+    popups.forEach(popUp => {
+      popUp.classList.remove('popup_opened');
+    })
+  };
+});
+
+// Закрытие попапов на клик вне области
+
+document.addEventListener('mousedown', function(event) {
+  if(event.target.closest('.popup__window') === null && event.button == 0) {
+    popups.forEach(popUp => {
+      popUp.classList.remove('popup_opened');
+    });
+  };
+});
