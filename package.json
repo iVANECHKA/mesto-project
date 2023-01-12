@@ -1,23 +1,30 @@
 {
-  "name": "mesto_project",
+  "name": "mesto-project",
   "version": "0.0.1",
-  "description": "[![N|Solid](https://i.imgur.com/ierxLvC.png)](https://ivanechka.github.io/mesto-project/)\r # Проект: Mesto\r ## Описание\r Это социальная сеть для путешественников.\r Каждый может создать своё портфолио из поездок по России и поделиться им с друзьями. \r ## Цель\r Показать иностранцам и соотечественникам красивые места нашей огромной страны.\r Доказать, что туризм начинается здесь!\r ### Уже реализовано\r - Аватар\r - Имя профиля\r - Описание профиля\r - Кнопка редактирования профиля\r - Кнопка для добавления фото\r - Галерея фотографий\r - Popup редактирования профиля\r - Возможность редактирования профиля для пользователей\r - Возможность добавить/удалить фото",
-  "main": "index.js",
+  "description": "Learning platform",
+  "main": "src/components/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iVANECHKA/mesto-project.git"
-  },
-  "author": "iVANECHKA",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/iVANECHKA/mesto-project/issues"
-  },
-  "homepage": "https://github.com/iVANECHKA/mesto-project#readme",
   "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "autoprefixer": "^10.4.13",
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.3",
+    "cssnano": "^5.1.14",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "postcss-loader": "^7.0.2",
     "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "core-js": "^3.27.1"
   }
 }

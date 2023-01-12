@@ -20,6 +20,7 @@ const galaryCards = document.querySelector('.galary__cards'); // Контейн�
 const cardTemplate = document.querySelector('.cardTemplate'); // Шаблон карточки
 const caption = document.querySelector('.imgFull-popup__caption'); // Подпись попапа с полным изображением
 const bigImg = document.querySelector('.imgFull-popup__image'); // Фото попапа с полным изображением
+import './pages/index.css';
 const initialCards = [
     {
       name: 'Архыз',
@@ -47,7 +48,7 @@ const initialCards = [
     }
   ];
   
-
+// profileAvatar.setAttribute('src', `${profileImage}`);
 
 // Открытие/Закрытие окон
 
@@ -285,3 +286,4 @@ document.addEventListener('mousedown', function(event) {
     });
   };
 });
+

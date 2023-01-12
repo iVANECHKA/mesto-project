@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
     <title>Место</title>
 </head>
 <body>
@@ -40,11 +39,11 @@
                 
                     <h2 class="popup__heading">Редактировать профиль</h2>
                     <label class="popup__label">
-                        <input class="popup__input" id="name-input" type="text" name="userName" placeholder="Имя" required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
+                        <input class="popup__input" id="name-input" type="text" name="userName" placeholder="Имя" required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.">
                         <span class="form__input-error name-input-error"></span>
                     </label>
                     <label class="popup__label">
-                        <input class="popup__input job-input" id="description-input" type="text" name="userDescription" placeholder="Описание" required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
+                        <input class="popup__input job-input" id="description-input" type="text" name="userDescription" placeholder="Описание" required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                         <span class="form__input-error description-input-error"></span>
                     </label>
                     <button type="submit" class="popup__save-button">Сохранить</button>
@@ -59,7 +58,7 @@
             <form class="popup__form" name="addingNewImage" novalidate>
                 <h2 class="popup__heading">Новое место</h2>
                 <label class="popup__label">
-                    <input class="popup__input" id="imgName-input" type="text" name="placeName" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы.">
+                    <input class="popup__input" id="imgName-input" type="text" name="placeName" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
                     <span class="form__input-error imgName-input-error"></span>
                 </label>
                 <label class="popup__label">
@@ -90,7 +89,5 @@
             <button class="galary__delete" type="button"></button>
         </li>
     </template>
-
-    <script src="./js/script.js"></script>
 </body>
 </html>
