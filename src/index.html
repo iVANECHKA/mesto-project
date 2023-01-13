@@ -13,7 +13,7 @@
         </header>
     <main>
         <section class="profile">
-            <img src="./images/profile-avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
+            <img src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
             <div class="profile__info">
                 <div class="profile__name-container">
                     <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -54,8 +54,8 @@
 
     <div class="popup imgAdd-popup">
         <div class="popup__window">
-            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-            <form class="popup__form" name="addingNewImage" novalidate>
+            <button class="popup__close-button img-close-btn" type="button" aria-label="Закрыть"></button>
+            <form class="popup__form img-form" name="addingNewImage" novalidate>
                 <h2 class="popup__heading">Новое место</h2>
                 <label class="popup__label">
                     <input class="popup__input" id="imgName-input" type="text" name="placeName" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯЁё\s-]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
