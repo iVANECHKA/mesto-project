@@ -35,7 +35,6 @@
 @import url(../blocks/imgFull-popup/imgFull-popup.css);
 @import url(../blocks/imgFull-popup/__container/imgFull-popup__container.css);
 @import url(../blocks/popup/__input-error/form__input-error.css);
-@import url(../blocks/popup/__label/popup__label.css);
 @import url(../blocks/popup/__input-error/_active/form__input-error_active.css);
 @import url(../blocks/popup/__set/popup__set.css);
 @import url(../blocks/popup/__save-button/_inactive/popup__save-button_inactive.css);

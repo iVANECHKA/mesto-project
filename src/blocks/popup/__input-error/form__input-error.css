@@ -2,8 +2,15 @@
     color: rgba(255, 0, 0, 1);
     font-size: 12px;
     line-height: 15px;
+    width: 358px;
     font-weight: 400;
-    margin-left: 36px;
-    margin-right: 36px;
-    display: none;
+    min-height: 30px;
+    display: block;
+    opacity: 0;
+    margin: 5px 0 13px 0;
+}
+
+.imgForm > .form__input-error:last-of-type {
+    margin-bottom: 31.34px;
+    min-height: auto;
 }
