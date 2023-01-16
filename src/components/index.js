@@ -74,7 +74,6 @@ buttonCloseList.forEach(btn => {
 
 
 
-
 // Изменение информации в профиле
 
 function handleProfileFormSubmit (evt) {
@@ -87,8 +86,6 @@ function handleProfileFormSubmit (evt) {
 }
 
 formElementEdit.addEventListener('submit', handleProfileFormSubmit); 
-
-
 
 
 // Добавление карточек по умолчанию в DOM
@@ -115,22 +112,8 @@ function addNewCard(evt) {
 imageFormElement.addEventListener('submit', addNewCard);
 
 
-
-
-
-
-
 enableValidation(validationSettings);
 
-// Закрытие попапов на Escape
-
-document.addEventListener('keydown', function(event) {
-  if(event.key === 'Escape' && document.querySelector('.popup_opened') !== null) {
-    popups.forEach(popUp => {
-      popUp.classList.remove('popup_opened');
-    })
-  };
-});
 
 // Закрытие попапов на клик вне области
 
