@@ -1,0 +1,4 @@
+.profile__avatar-button_active {
+    visibility: visible;
+    opacity: 1;
+}
