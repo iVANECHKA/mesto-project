@@ -54,9 +54,13 @@
   
     toggleButtonState(inputList, buttonElement, validationSettings);
   
-    formElement.addEventListener('submit', () => {
-      toggleButtonState(inputList, buttonElement, validationSettings);
-    })
+    formElement.addEventListener('reset', () => {
+      setTimeout(() => {
+        toggleButtonState(inputList, buttonElement, validationSettings);
+      }, 0);
+      
+    });
+    
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', function () {
         checkInputValidity(formElement, inputElement, validationSettings);

@@ -64,6 +64,7 @@ const editProfileInfo = (e) => {
       profileName.textContent = nameInput.value;
       profileJob.textContent = jobInput.value;
       closePopup(popupEdit);
+      imageFormElement.reset();
     })
     .catch((err) => {
       console.error(err);
