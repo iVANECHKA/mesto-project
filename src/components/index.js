@@ -27,6 +27,7 @@ import {
   avatarInput,
   avatarFormElement, avatarPopUp, profileAvatarWrapper, profileAvatarButton, validationSettings, popups
 } from './variables.js';
+import Section from "./Section.js";
 
 let user = {}
 
@@ -38,14 +39,17 @@ Promise.all([api.getUserData(), api.getInitialCards()])
     profileName.textContent = user.name;
     profileJob.textContent = user.about;
     profileAvatar.src = user.avatar;
-
-    cards.forEach((card) => {
-      galaryCards.append(createCard(card, user));
-    })
+    const section = new Section({items: cards, renderer: createCards}, galaryCards)
+    section.renderItems()
   })
   .catch((err) => {
     console.error(err);
   })
+
+function createCards(data) {
+  // function stub for class Card
+  return createCard(data, user)
+}
 
 const editProfileInfo = (e) => {
   e.preventDefault();
