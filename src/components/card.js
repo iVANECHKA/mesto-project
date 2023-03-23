@@ -1,10 +1,8 @@
 import { openPopup } from "./modal.js";
-import { deleteCardOnServer, addLike, deleteLike } from "./Api.js";
-const cardTemplate = document.querySelector('.cardTemplate'); // Шаблон карточки
-const caption = document.querySelector('.imgFull-popup__caption'); // Подпись попапа с полным изображением
-const bigImg = document.querySelector('.imgFull-popup__image'); // Фото попапа с полным изображением
-const imageFullPopUp = document.querySelector('.imgFull-popup'); // PopUp с полным изображением
-
+import Api from "./Api.js";
+import {config} from "./config.js";
+import {bigImg, caption, cardTemplate, imageFullPopUp} from "./variables.js";
+const api = new Api(config)
 // Создание карточек
 export function createCard(card, user) {
 
@@ -26,7 +24,7 @@ export function createCard(card, user) {
   // Обработка мусорных корзин, проверка владельца карточки
   if (user._id == card.owner._id) {
     cardBin.addEventListener('click', (e) => {
-      deleteCardOnServer(card._id)
+      api.deleteCardOnServer(card._id)
         .then(() => {
           e.target.closest('.galary__card').remove();
         })
@@ -44,7 +42,7 @@ export function createCard(card, user) {
 
   like.addEventListener('click', (e) => {
     if (!e.target.classList.contains('galary__like_active')) {
-      addLike(card._id)
+      api.addLike(card._id)
         .then((card) => {
           e.target.classList.add('galary__like_active');
           likeNumber.textContent = card.likes.length;
@@ -53,7 +51,7 @@ export function createCard(card, user) {
           console.error(err);
         })
     } else {
-      deleteLike(card._id)
+      api.deleteLike(card._id)
       .then((card) => {
         e.target.classList.remove('galary__like_active');
         likeNumber.textContent = card.likes.length;

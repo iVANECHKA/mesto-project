@@ -23,6 +23,11 @@ export const popupSaveBtnProfile = popupEdit.querySelector('.popup__save-button'
 export const popupSaveBtnImage = imagePopUp.querySelector('.popup__save-button') // Кнопка отправки формы добавления фото
 export const popupSaveBtnAvatar = avatarPopUp.querySelector('.popup__save-button') // Кнопка отправки формы смены аватара
 
+export const cardTemplate = document.querySelector('.cardTemplate'); // Шаблон карточки
+export const caption = document.querySelector('.imgFull-popup__caption'); // Подпись попапа с полным изображением
+export const bigImg = document.querySelector('.imgFull-popup__image'); // Фото попапа с полным изображением
+export const imageFullPopUp = document.querySelector('.imgFull-popup'); // PopUp с полным изображением
+
 export const validationSettings = {
   popupForm: '.popup__form',
   popupInput: '.popup__input',

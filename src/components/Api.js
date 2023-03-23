@@ -1,5 +1,3 @@
-import {checkResponse} from "./utils.js";
-
 export default class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
@@ -11,14 +9,14 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   editProfile(name, about) {
@@ -30,7 +28,7 @@ export default class Api {
         about: about
       })
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   addCardOnServer(link, name) {
@@ -42,7 +40,7 @@ export default class Api {
         link: link
       })
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   deleteCardOnServer(card) {
@@ -50,7 +48,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   addLike(card) {
@@ -58,7 +56,7 @@ export default class Api {
       method: 'PUT',
       headers: this._headers
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   deleteLike(card) {
@@ -66,7 +64,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
   }
 
   updateAvatar(photo) {
@@ -77,6 +75,14 @@ export default class Api {
         avatar: photo
       })
     })
-      .then(checkResponse);
+      .then(this._checkResponse);
+  }
+
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 }
