@@ -1,5 +1,5 @@
 import { openPopup } from "./modal.js";
-import { deleteCardOnServer, addLike, deleteLike } from "./api.js";
+import { deleteCardOnServer, addLike, deleteLike } from "./Api.js";
 const cardTemplate = document.querySelector('.cardTemplate'); // Шаблон карточки
 const caption = document.querySelector('.imgFull-popup__caption'); // Подпись попапа с полным изображением
 const bigImg = document.querySelector('.imgFull-popup__image'); // Фото попапа с полным изображением
