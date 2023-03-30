@@ -1,7 +1,7 @@
 import '../pages/index.css';
 import {closePopup, openPopup} from './modal.js';
 import {enableValidation} from './validate.js';
-import {createCard} from './card.js';
+import Card from './Card.js';
 import {config} from "./config.js";
 import Api from "./Api.js";
 import {data} from 'autoprefixer';
@@ -25,7 +25,15 @@ import {
   imageNameInput,
   popupSaveBtnAvatar,
   avatarInput,
-  avatarFormElement, avatarPopUp, profileAvatarWrapper, profileAvatarButton, validationSettings, popups
+  avatarFormElement,
+  avatarPopUp,
+  profileAvatarWrapper,
+  profileAvatarButton,
+  validationSettings,
+  popups,
+  caption,
+  bigImg,
+  imageFullPopUp, cardTemplate
 } from './variables.js';
 import Section from "./Section.js";
 
@@ -39,16 +47,69 @@ Promise.all([api.getUserData(), api.getInitialCards()])
     profileName.textContent = user.name;
     profileJob.textContent = user.about;
     profileAvatar.src = user.avatar;
-    const section = new Section({items: cards, renderer: createCards}, galaryCards)
+    const section = new Section({items: cards, renderer: createCard}, galaryCards)
     section.renderItems()
   })
   .catch((err) => {
     console.error(err);
   })
 
-function createCards(data) {
-  // function stub for class Card
-  return createCard(data, user)
+function handleLikeClick(likeElement, id, likeNumber) {
+  if (!likeElement.classList.contains('galary__like_active')) {
+    api.addLike(id)
+      .then((res) => {
+        likeElement.classList.add('galary__like_active');
+        // debugger
+        likeNumber.textContent = res.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  } else {
+    api.deleteLike(id)
+      .then((res) => {
+        likeElement.classList.remove('galary__like_active');
+        likeNumber.textContent = res.likes.length;
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+}
+
+function handleDeleteClick(cardElement, id) {
+  api.deleteCardOnServer(id)
+    .then((res) => {
+      cardElement.remove();
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+}
+
+function handleCardClick(name, link) {
+  caption.textContent = name;
+  bigImg.src = link;
+  bigImg.alt = name;
+  // function stub for class Popup
+  openPopup(imageFullPopUp);
+}
+
+function createCard(data) {
+  const card = new Card({card: data, user},
+    cardTemplate,
+    (name, link) => {
+      handleCardClick(name, link);
+    },
+    (cardElement, id, likeNumber) => {
+      handleLikeClick(cardElement, id, likeNumber);
+    },
+    (cardElement, id) => {
+      handleDeleteClick(cardElement, id)
+    }
+  )
+  return card.getRenderCard();
 }
 
 const editProfileInfo = (e) => {
