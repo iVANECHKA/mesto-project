@@ -1,10 +1,9 @@
 import '../pages/index.css';
-import {closePopup, openPopup} from './modal.js';
-import {enableValidation} from './validate.js';
+import { enableValidation } from './validate.js';
 import Card from './Card.js';
-import {config} from "./config.js";
+import { config } from "./config.js";
 import Api from "./Api.js";
-import {data} from 'autoprefixer';
+import { data } from 'autoprefixer';
 import {
   profileName,
   profileJob,
@@ -36,18 +35,23 @@ import {
   imageFullPopUp, cardTemplate
 } from './variables.js';
 import Section from "./Section.js";
+import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
 
 let user = {}
 
 const api = new Api(config)
 
+const userInfo = new UserInfo({ userName: profileName, userDescription: profileJob, userAvatar: profileAvatar });
+
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([serverUser, cards]) => {
     user = serverUser;
-    profileName.textContent = user.name;
-    profileJob.textContent = user.about;
-    profileAvatar.src = user.avatar;
-    const section = new Section({items: cards, renderer: createCard}, galaryCards)
+    userInfo.setUserInfo({ name: serverUser.name, description: serverUser.about });
+    userInfo.setUserAvatar({ avatarLink: serverUser.avatar })
+    const section = new Section({ items: cards, renderer: createCard }, galaryCards)
     section.renderItems()
   })
   .catch((err) => {
@@ -88,19 +92,12 @@ function handleDeleteClick(cardElement, id) {
     })
 }
 
-function handleCardClick(name, link) {
-  caption.textContent = name;
-  bigImg.src = link;
-  bigImg.alt = name;
-  // function stub for class Popup
-  openPopup(imageFullPopUp);
-}
 
 function createCard(data) {
-  const card = new Card({card: data, user},
+  const card = new Card({ card: data, user },
     cardTemplate,
     (name, link) => {
-      handleCardClick(name, link);
+      fullImagePopup.open(link, name);
     },
     (cardElement, id, likeNumber) => {
       handleLikeClick(cardElement, id, likeNumber);
@@ -112,59 +109,50 @@ function createCard(data) {
   return card.getRenderCard();
 }
 
-const editProfileInfo = (e) => {
+
+// Попап профиля
+const profilePopup = new PopupWithForm(popupEdit, (e) => {
   e.preventDefault();
   popupSaveBtnProfile.textContent = 'Сохранение...';
-  api.editProfile(nameInput.value, jobInput.value)
-    .then(() => {
-      profileName.textContent = nameInput.value;
-      profileJob.textContent = jobInput.value;
-      closePopup(popupEdit);
-      imageFormElement.reset();
-    })
+  const formValues = profilePopup.getValues();
+
+  api.editProfile(formValues.userName, formValues.userDescription).then((data) => {
+    userInfo.setUserInfo({ name: data.name, description: data.about });
+    profilePopup.close();
+  })
     .catch((err) => {
       console.error(err);
     })
     .finally(() => {
       popupSaveBtnProfile.textContent = 'Сохранить';
     })
-};
+});
+
+profilePopup.setEventListeners();
 
 // Открытие окна редактирования профиля
 buttonEditProfile.addEventListener('click', function () {
-  openPopup(popupEdit);
+  profilePopup.open();
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 });
 
-// Открытие окна добавления фото
-buttonAdd.addEventListener('click', function () {
-  openPopup(imagePopUp);
-});
-
-// Вешаю слушатели на все крестики для закрытия окон
-
-buttonCloseList.forEach(btn => {
-  const popup = btn.closest('.popup');
-  btn.addEventListener('click', () => closePopup(popup));
-});
 
 
-formElementEdit.addEventListener('submit', editProfileInfo);
+// Попап добавления фото
 
+const imageAddPopup = new PopupWithForm(imagePopUp, (e) => {
 
-// Функция добавления новых карточек
-
-function addNewCard(evt) {
-  evt.preventDefault();
+  e.preventDefault();
   popupSaveBtnImage.textContent = 'Создание...';
+  const formValues = imageAddPopup.getValues();
 
-  api.addCardOnServer(imageLinkInput.value, imageNameInput.value)
+  api.addCardOnServer(formValues.placeLink, formValues.placeName)
     .then((card) => {
       const newCard = createCard(card, user);
       galaryCards.prepend(newCard);
       imageFormElement.reset();
-      closePopup(imagePopUp);
+      imageAddPopup.close();
     })
     .catch((err) => {
       console.error(err);
@@ -173,34 +161,37 @@ function addNewCard(evt) {
       popupSaveBtnImage.textContent = 'Создать';
     })
 
-};
+});
 
-imageFormElement.addEventListener('submit', addNewCard);
+imageAddPopup.setEventListeners(); 
 
-// Замена аватара
+// Открытие окна добавления фото
+buttonAdd.addEventListener('click', function () {
+  imageAddPopup.open();
+});
 
-const editAvatar = (e) => {
+
+// Попап аватара
+
+const avatarPopup = new PopupWithForm(avatarPopUp, (e) => {
   e.preventDefault();
-  popupSaveBtnAvatar.textContent = 'Сохранение...'
+  popupSaveBtnProfile.textContent = 'Сохранение...';
+  const formValues = avatarPopup.getValues();
+  avatarFormElement.reset();
 
-  api.updateAvatar(avatarInput.value)
-    .then(() => {
-      profileAvatar.src = avatarInput.value;
-      avatarFormElement.reset();
-      closePopup(avatarPopUp);
-    })
-
+  api.updateAvatar(formValues.avatarLink).then((data) => {
+    userInfo.setUserAvatar({ avatarLink: data.avatar });
+    avatarPopup.close();
+  })
     .catch((err) => {
       console.error(err);
     })
-
     .finally(() => {
-      popupSaveBtnAvatar.textContent = 'Сохранить'
+      popupSaveBtnProfile.textContent = 'Сохранить';
     })
+});
 
-};
-
-avatarFormElement.addEventListener('submit', editAvatar);
+avatarPopup.setEventListeners();
 
 
 // Слушатели для аватара
@@ -216,22 +207,17 @@ profileAvatarWrapper.addEventListener('mouseleave', () => {
 })
 
 profileAvatarWrapper.addEventListener('click', () => {
-  openPopup(avatarPopUp);
+  avatarPopup.open();
 });
 
+
+//Попап полного изображения
+
+const fullImagePopup = new PopupWithImage(imageFullPopUp);
+fullImagePopup.setEventListeners();
 
 enableValidation(validationSettings);
 
-
-// Закрытие попапов на клик вне области
-
-popups.forEach(popup => {
-  popup.addEventListener('mousedown', (e) => {
-    if (e.target.classList.contains('popup')) {
-      closePopup(popup)
-    }
-  })
-});
 
 
 
