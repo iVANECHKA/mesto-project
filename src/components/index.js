@@ -39,6 +39,7 @@ import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
 import PopupWithForm from './PopupWithForm.js';
 import UserInfo from './UserInfo.js';
+import FormValidator from './FormValidator.js';
 
 let user = {}
 
@@ -130,6 +131,9 @@ const profilePopup = new PopupWithForm(popupEdit, (e) => {
 
 profilePopup.setEventListeners();
 
+const profileValidator = new FormValidator(validationSettings, formElementEdit);
+profileValidator.enableValidation();
+
 // Открытие окна редактирования профиля
 buttonEditProfile.addEventListener('click', function () {
   profilePopup.open();
@@ -163,7 +167,10 @@ const imageAddPopup = new PopupWithForm(imagePopUp, (e) => {
 
 });
 
-imageAddPopup.setEventListeners(); 
+imageAddPopup.setEventListeners();
+
+const imageAddValidator = new FormValidator(validationSettings, imageFormElement);
+imageAddValidator.enableValidation();
 
 // Открытие окна добавления фото
 buttonAdd.addEventListener('click', function () {
@@ -193,6 +200,9 @@ const avatarPopup = new PopupWithForm(avatarPopUp, (e) => {
 
 avatarPopup.setEventListeners();
 
+const avatarValidator = new FormValidator(validationSettings, avatarFormElement);
+avatarValidator.enableValidation();
+
 
 // Слушатели для аватара
 
@@ -216,7 +226,7 @@ profileAvatarWrapper.addEventListener('click', () => {
 const fullImagePopup = new PopupWithImage(imageFullPopUp);
 fullImagePopup.setEventListeners();
 
-enableValidation(validationSettings);
+// enableValidation(validationSettings);
 
 
 
