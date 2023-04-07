@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { enableValidation } from './validate.js';
+// import { enableValidation } from './validate.js';
 import Card from './Card.js';
 import { config } from "./config.js";
 import Api from "./Api.js";
