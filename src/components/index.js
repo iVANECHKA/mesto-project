@@ -47,34 +47,32 @@ const api = new Api(config)
 
 const userInfo = new UserInfo({ userName: profileName, userDescription: profileJob, userAvatar: profileAvatar });
 
+const section = new Section({ renderer: createCard }, galaryCards)
+
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([serverUser, cards]) => {
     user = serverUser;
     userInfo.setUserInfo({ name: serverUser.name, description: serverUser.about });
     userInfo.setUserAvatar({ avatarLink: serverUser.avatar })
-    const section = new Section({ items: cards, renderer: createCard }, galaryCards)
-    section.renderItems()
+    section.renderItems(cards)
   })
   .catch((err) => {
     console.error(err);
   })
-
-function handleLikeClick(likeElement, id, likeNumber) {
-  if (!likeElement.classList.contains('galary__like_active')) {
-    api.addLike(id)
+function handleLikeClick(card) {
+  if (!card._isLiked()) {
+    api.addLike(card._cardId)
       .then((res) => {
-        likeElement.classList.add('galary__like_active');
-        // debugger
-        likeNumber.textContent = res.likes.length;
+        card._addLike(res)
       })
       .catch((err) => {
         console.log(err);
       })
-  } else {
-    api.deleteLike(id)
+  } else
+  {
+    api.deleteLike(card._cardId)
       .then((res) => {
-        likeElement.classList.remove('galary__like_active');
-        likeNumber.textContent = res.likes.length;
+        card._removeLike(res)
       })
       .catch((err) => {
         console.error(err);
@@ -100,8 +98,8 @@ function createCard(data) {
     (name, link) => {
       fullImagePopup.open(link, name);
     },
-    (cardElement, id, likeNumber) => {
-      handleLikeClick(cardElement, id, likeNumber);
+    (card) => {
+      handleLikeClick(card);
     },
     (cardElement, id) => {
       handleDeleteClick(cardElement, id)
@@ -153,8 +151,7 @@ const imageAddPopup = new PopupWithForm(imagePopUp, (e) => {
 
   api.addCardOnServer(formValues.placeLink, formValues.placeName)
     .then((card) => {
-      const newCard = createCard(card, user);
-      galaryCards.prepend(newCard);
+      section.renderItem(card)
       imageFormElement.reset();
       imageAddPopup.close();
     })

@@ -1,6 +1,5 @@
 export default class Card {
   constructor({card, user}, templateElement, handleCardClick, handleLikeClick, handleDeleteClick) {
-    // debugger
     this._cardId = card._id;
     this._cardName = card.name;
     this._cardLink = card.link;
@@ -11,25 +10,37 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteClick = handleDeleteClick;
-  }
-
-  _getTemplate() {
-    return this._templateElement.content.querySelector('.galary__card').cloneNode(true);
-  }
-
-  getRenderCard() {
     this._cardElement = this._getTemplate()
     this._img = this._cardElement.querySelector('.galary__image');
     this._cardTitle = this._cardElement.querySelector('.galary__name');
     this._like = this._cardElement.querySelector('.galary__like');
     this._likeNumber = this._cardElement.querySelector('.galary__like-number');
     this._cardBin = this._cardElement.querySelector('.galary__delete');
-
     this._img.src = this._cardLink;
     this._img.setAttribute('alt', this._cardName);
     this._cardTitle.textContent = this._cardName;
     this._likeNumber.textContent = this._cardLikes.length;
+  }
 
+  _getTemplate() {
+    return this._templateElement.content.querySelector('.galary__card').cloneNode(true);
+  }
+
+  _isLiked() {
+    return this._like.classList.contains('galary__like_active');
+  }
+
+  _removeLike(res) {
+    this._like.classList.remove('galary__like_active');
+    this._likeNumber.textContent = res.likes.length;
+  }
+
+  _addLike(res) {
+    this._like.classList.add('galary__like_active');
+    this._likeNumber.textContent = res.likes.length;
+  }
+
+  getRenderCard() {
     if (this._userId !== this._ownerId) {
       this._cardBin.remove()
     }
@@ -46,7 +57,7 @@ export default class Card {
 
   _setCardEventListeners() {
     this._like.addEventListener('click', (e) => {
-      this._handleLikeClick(this._like, this._cardId, this._likeNumber);
+      this._handleLikeClick(this);
     });
     if (this._cardBin) {
       this._cardBin.addEventListener('click', () => {
