@@ -1,8 +1,7 @@
 import '../pages/index.css';
-// import { enableValidation } from './validate.js';
-import Card from './Card.js';
-import { config } from "./config.js";
-import Api from "./Api.js";
+import Card from '../components/Card.js';
+import { config } from "../utils/config.js";
+import Api from "../components/Api.js";
 import { data } from 'autoprefixer';
 import {
   profileName,
@@ -33,13 +32,13 @@ import {
   caption,
   bigImg,
   imageFullPopUp, cardTemplate
-} from './variables.js';
-import Section from "./Section.js";
-import Popup from './Popup.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
-import FormValidator from './FormValidator.js';
+} from '../utils/variables.js';
+import Section from "../components/Section.js";
+import Popup from '../components/Popup.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import FormValidator from '../components/FormValidator.js';
 
 let user = {}
 
@@ -48,6 +47,21 @@ const api = new Api(config)
 const userInfo = new UserInfo({ userName: profileName, userDescription: profileJob, userAvatar: profileAvatar });
 
 const section = new Section({ renderer: createCard }, galaryCards)
+
+const formValidators = {}
+
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.popupForm))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement)
+    const formName = formElement.getAttribute('name')
+
+    formValidators[formName] = validator;
+   validator.enableValidation();
+  });
+};
+
+enableValidation(validationSettings);
 
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([serverUser, cards]) => {
@@ -129,14 +143,13 @@ const profilePopup = new PopupWithForm(popupEdit, (e) => {
 
 profilePopup.setEventListeners();
 
-const profileValidator = new FormValidator(validationSettings, formElementEdit);
-profileValidator.enableValidation();
 
 // Открытие окна редактирования профиля
 buttonEditProfile.addEventListener('click', function () {
+  nameInput.value = userInfo.getUserInfo().profileName;
+  jobInput.value = userInfo.getUserInfo().profileDescription;
+  formValidators['profileEdit'].resetValidation();
   profilePopup.open();
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
 });
 
 
@@ -152,7 +165,6 @@ const imageAddPopup = new PopupWithForm(imagePopUp, (e) => {
   api.addCardOnServer(formValues.placeLink, formValues.placeName)
     .then((card) => {
       section.renderItem(card)
-      imageFormElement.reset();
       imageAddPopup.close();
     })
     .catch((err) => {
@@ -166,11 +178,9 @@ const imageAddPopup = new PopupWithForm(imagePopUp, (e) => {
 
 imageAddPopup.setEventListeners();
 
-const imageAddValidator = new FormValidator(validationSettings, imageFormElement);
-imageAddValidator.enableValidation();
-
 // Открытие окна добавления фото
 buttonAdd.addEventListener('click', function () {
+  formValidators['addingNewImage'].resetValidation();
   imageAddPopup.open();
 });
 
@@ -181,7 +191,6 @@ const avatarPopup = new PopupWithForm(avatarPopUp, (e) => {
   e.preventDefault();
   popupSaveBtnProfile.textContent = 'Сохранение...';
   const formValues = avatarPopup.getValues();
-  avatarFormElement.reset();
 
   api.updateAvatar(formValues.avatarLink).then((data) => {
     userInfo.setUserAvatar({ avatarLink: data.avatar });
@@ -197,9 +206,6 @@ const avatarPopup = new PopupWithForm(avatarPopUp, (e) => {
 
 avatarPopup.setEventListeners();
 
-const avatarValidator = new FormValidator(validationSettings, avatarFormElement);
-avatarValidator.enableValidation();
-
 
 // Слушатели для аватара
 
@@ -214,6 +220,7 @@ profileAvatarWrapper.addEventListener('mouseleave', () => {
 })
 
 profileAvatarWrapper.addEventListener('click', () => {
+  formValidators['edittingAvatar'].resetValidation();
   avatarPopup.open();
 });
 

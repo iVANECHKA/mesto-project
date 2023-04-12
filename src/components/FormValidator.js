@@ -7,17 +7,16 @@ export default class FormValidator {
         this._formButton = this._form.querySelector('.popup__save-button');
     };
 
-    _getErrorElement(inputElement) {
-        return this._form.querySelector(`.${inputElement.id}-error`);
-    };
 
-    _showInputError(inputElement, validationMessage, errorElement) {
+    _showInputError(inputElement, validationMessage) {
+        const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.add(this._validatorSettings.inputError);
         errorElement.textContent = validationMessage;
         errorElement.classList.add(this._validatorSettings.inputErrorActive);
     };
 
-    _hideInputError(inputElement, errorElement) {
+    _hideInputError(inputElement) {
+        const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.remove(this._validatorSettings.inputError);
         errorElement.textContent = '';
         errorElement.classList.remove(this._validatorSettings.inputErrorActive);
@@ -30,7 +29,6 @@ export default class FormValidator {
     };
 
     _checkInputValidity(inputElement) {
-        const errorElement = this._getErrorElement(inputElement);
 
         if (inputElement.validity.patternMismatch) {
             inputElement.setCustomValidity(inputElement.dataset.errorMessage);
@@ -39,9 +37,9 @@ export default class FormValidator {
         }
 
         if (!inputElement.validity.valid) {
-            this._showInputError(inputElement, inputElement.validationMessage, errorElement);
+            this._showInputError(inputElement, inputElement.validationMessage);
         } else {
-            this._hideInputError(inputElement, errorElement);
+            this._hideInputError(inputElement);
         }
     };
 
@@ -69,5 +67,14 @@ export default class FormValidator {
     enableValidation() {
         this._setEventListeners();
     }
+
+    resetValidation() {
+        this.toggleButtonState();
+  
+        this._inputList.forEach((inputElement) => {
+          this._hideInputError(inputElement);
+        });
+  
+      }
 
 }
