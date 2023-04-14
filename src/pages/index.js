@@ -74,19 +74,19 @@ Promise.all([api.getUserData(), api.getInitialCards()])
     console.error(err);
   })
 function handleLikeClick(card) {
-  if (!card._isLiked()) {
-    api.addLike(card._cardId)
+  if (!card.isLiked()) {
+    api.addLike(card.cardId)
       .then((res) => {
-        card._addLike(res)
+        card.addLike(res)
       })
       .catch((err) => {
         console.log(err);
       })
   } else
   {
-    api.deleteLike(card._cardId)
+    api.deleteLike(card.cardId)
       .then((res) => {
-        card._removeLike(res)
+        card.removeLike(res)
       })
       .catch((err) => {
         console.error(err);

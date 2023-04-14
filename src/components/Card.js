@@ -1,6 +1,6 @@
 export default class Card {
   constructor({card, user}, templateElement, handleCardClick, handleLikeClick, handleDeleteClick) {
-    this._cardId = card._id;
+    this.cardId = card._id;
     this._cardName = card.name;
     this._cardLink = card.link;
     this._cardLikes = card.likes;
@@ -26,16 +26,16 @@ export default class Card {
     return this._templateElement.content.querySelector('.galary__card').cloneNode(true);
   }
 
-  _isLiked() {
+  isLiked() {
     return this._like.classList.contains('galary__like_active');
   }
 
-  _removeLike(res) {
+  removeLike(res) {
     this._like.classList.remove('galary__like_active');
     this._likeNumber.textContent = res.likes.length;
   }
 
-  _addLike(res) {
+  addLike(res) {
     this._like.classList.add('galary__like_active');
     this._likeNumber.textContent = res.likes.length;
   }
@@ -61,7 +61,7 @@ export default class Card {
     });
     if (this._cardBin) {
       this._cardBin.addEventListener('click', () => {
-        this._handleDeleteClick(this._cardElement, this._cardId);
+        this._handleDeleteClick(this._cardElement, this.cardId);
       });
     }
 
