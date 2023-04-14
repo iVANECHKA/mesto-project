@@ -146,8 +146,9 @@ profilePopup.setEventListeners();
 
 // Открытие окна редактирования профиля
 buttonEditProfile.addEventListener('click', function () {
-  nameInput.value = userInfo.getUserInfo().profileName;
-  jobInput.value = userInfo.getUserInfo().profileDescription;
+  const {profileDescription, profileName} = userInfo.getUserInfo()
+  nameInput.value = profileName;
+  jobInput.value = profileDescription;
   formValidators['profileEdit'].resetValidation();
   profilePopup.open();
 });
